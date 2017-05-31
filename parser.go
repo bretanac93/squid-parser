@@ -54,9 +54,3 @@ func Parse(l string) (e LogEntry) {
 
 	return
 }
-
-func main() {
-	logLine := "1480792667.325    388 10.2.37.199 TCP_MISS/200 804 POST http://clients1.google.com/ocsp juan.cabo HIER_DIRECT/172.217.2.142 application/ocsp-response\n1480792667.325    388 10.2.37.199 TCP_MISS/200 804 POST http://clients1.google.com/ocsp juan.cabo HIER_DIRECT/172.217.2.142 application/ocsp-response"
-	entry := TransformFile(s.NewReader(logLine))
-	fmt.Println(entry)
-}
