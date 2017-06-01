@@ -1,4 +1,4 @@
-package squidparser
+package main
 
 import (
 	"github.com/stretchr/testify/assert"
@@ -7,16 +7,22 @@ import (
 )
 
 func TestParse(t *testing.T) {
-	actual := Parse("1480792667.325    388 10.2.37.199 TCP_MISS/200 804 POST http://clients1.google.com/ocsp juan.cabo HIER_DIRECT/172.217.2.142 application/ocsp-response").User
-	expected := "juan.cabo"
-	assert := assert.New(t)
-	assert.Equal(actual, expected, "They should be equals")
+	var e error
+	var pl LogEntry
+	pl, e = Parse("1480792667.325    388 10.2.37.199 TCP_MISS/200 804 POST http://clients1.google.com/ocsp juan.cabo HIER_DIRECT/172.217.2.142 application/ocsp-response")
+	if assert.NoError(t, e) {
+		assert.Equal(t, pl.User, "juan.cabo",
+			"They should be equals")
+	}
 }
 
 func TestTransformFile(t *testing.T) {
 	logLine := "1480792667.325    388 10.2.37.199 TCP_MISS/200 804 POST http://clients1.google.com/ocsp juan.cabo HIER_DIRECT/172.217.2.142 application/ocsp-response\n1480792667.325    388 10.2.37.199 TCP_MISS/200 804 POST http://clients1.google.com/ocsp juan.cabo HIER_DIRECT/172.217.2.142 application/ocsp-response"
-	actual := TransformFile(s.NewReader(logLine))[0].User
-	expected := "juan.cabo"
-	assert := assert.New(t)
-	assert.Equal(actual, expected, "They should be equals")
+	var e error
+	var tf []LogEntry
+	tf, e = TransformFile(s.NewReader(logLine))
+	if assert.NoError(t, e) {
+		expected := "juan.cabo"
+		assert.Equal(t, tf[0].User, expected, "They should be equals")
+	}
 }

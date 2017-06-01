@@ -1,22 +1,27 @@
-package squidparser
+package main
 
 import (
 	"github.com/hpcloud/tail"
 	"log"
 )
 
-// TailLogFile Doc
-func TailLogFile(filename string) {
-	t, err := tail.TailFile(filename, tail.Config{
+// Logs every change made to file with given filename
+func TailLogFile(filename string) (e error) {
+	var t *tail.Tail
+	t, e = tail.TailFile(filename, tail.Config{
 		Follow: true,
-		ReOpen: true})
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	for line := range t.Lines {
+		ReOpen: true,
+	})
+	for {
 		// log.Print(line.Text)
-		p := Parse(line.Text)
+		line := <-t.Lines
+		var e error
+		_, e = Parse(line.Text)
+		if e == nil {
+
+		}
+		log.Print(line.Text)
 	}
+	e = t.Err()
+	return
 }
