@@ -1,39 +1,22 @@
-package main
+package squidparser
 
 import (
-	"github.com/go-fsnotify/fsnotify"
+	"github.com/hpcloud/tail"
 	"log"
 )
 
-// NewWatcher Doc
-func NewWatcher() {
-	watcher, err = fsnotify.NewWatcher()
+// TailLogFile Doc
+func TailLogFile(filename string) {
+	t, err := tail.TailFile(filename, tail.Config{
+		Follow: true,
+		ReOpen: true})
+
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer watcher.Close()
 
-	done := make(chan bool)
-	go func() {
-		for {
-			select {
-			case event := <-watcher.Events:
-				log.Println("EVENT: ", event)
-				if event.Op&fsnotify.Write == fsnotify.Write {
-					log.Println("Modified file: ", event.Name)
-				}
-			case err := <-watcher.Errors:
-				log.Println("ERROR: ", err)
-			}
-		}
-	}()
-	err := watcher.Add("test.txt")
-	if err != nil {
-		log.Fatal(err)
+	for line := range t.Lines {
+		// log.Print(line.Text)
+		p := Parse(line.Text)
 	}
-	<-done
-}
-
-func main() {
-	NewWatcher()
 }
