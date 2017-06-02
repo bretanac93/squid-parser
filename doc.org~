@@ -1,0 +1,4 @@
+* Program
+The program maintains a dictionary of users associated to
+downloaded data size in a period of one week, which starts
+in a supplied week day

@@ -10,10 +10,8 @@ func main() {
 	fn = flag.String("f", "", "Filename to watch")
 	flag.Parse()
 	var e error
-	if *fn != "" {
-		e = TailLogFile(*fn)
-	}
-	if e != nil {
-		log.Fatal(e.Error())
-	}
+	// lastDate.date
+	var cns 
+	// syncedUserConsumedQuotaLastDate.file.cns.date
+	// syncedUserConsumedQuota.file.cns
 }

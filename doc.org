@@ -1,0 +1,11 @@
+* Program
+The program maintains a dictionary of users associated to
+downloaded data size in an one week period, which starts in
+a supplied week day. There is a limit for each user,
+determined by its group in the Active Directory, and when
+its reached the program moves the user in the active
+directory to the FinishedQuota group.
+
+The day the period starts every user's downloaded data
+size is reset to 0, and it is deleted from the group
+FinishedQuota.

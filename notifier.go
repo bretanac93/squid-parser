@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/hpcloud/tail"
 	"log"
+	"strconv"
 )
 
 // Logs every change made to file with given filename
@@ -24,4 +25,22 @@ func TailLogFile(filename string) (e error) {
 	}
 	e = t.Err()
 	return
+}
+
+func syncLines(lns chan<- *tail.Line) (dw chan-> *Dwn) {
+	// lines in lns come in chronological ordered
+	for {
+		var ln *tail.Line
+		ln = <-lns
+		var g *LogEntry
+		var e error
+		g, e = Parse(ln.Text)
+		if e == nil && newer(g.Timestamp, cns.Timestamp) {
+			cns.Timestamp = g.Timestamp
+			var bsc uint64
+			bs, _ = strconv.ParseUint(g.Bytes, 10, 64)
+			
+			cns[g.User] += bsc
+		}
+	}
 }
