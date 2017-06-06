@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-var storage = Storage{m: make(map[string]uint64)}
+var storage = Storage{m: make(map[string]Stat)}
 
 func TestInsertOrUpdate(t *testing.T) {
 	c, e := storage.InsertOrUpdate("cesar.bretana", 300)
@@ -14,8 +14,9 @@ func TestInsertOrUpdate(t *testing.T) {
 	}
 }
 
-func TestGetQuota(t *testing.T) {
-	q, e := storage.GetQuota("cesar.bretana")
+func TestGetUsage(t *testing.T) {
+	q, e := storage.GetUsage("cesar.bretana")
+	t.Log(q)
 	if assert.NoError(t, e) {
 		assert.Equal(t, q, uint64(300), "They should be equals")
 	}
